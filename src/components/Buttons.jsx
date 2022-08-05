@@ -1,9 +1,8 @@
-const Buttons = ({ onButtonClick, countPositiveFeedbackPercentage }) => {
-  const onClick = e => {
-    const feedbackType = e.target.textContent.toLowerCase();
-    onButtonClick(feedbackType);
-    countPositiveFeedbackPercentage();
-  };
+const Buttons = ({ onButtonClick }) => {
+  const onClick = (e) => {
+    const feedbackType = e.target.textContent.toLowerCase()
+    onButtonClick(feedbackType)
+  }
 
   return (
     <ul className="buttons-list" onClick={onClick}>
@@ -17,7 +16,7 @@ const Buttons = ({ onButtonClick, countPositiveFeedbackPercentage }) => {
         <button className="button">Bad</button>
       </li>
     </ul>
-  );
-};
+  )
+}
 
-export default Buttons;
+export default Buttons

@@ -1,48 +1,43 @@
-import React, { Component } from 'react';
-import Buttons from './Buttons';
-import Statistics from './Statistics';
+import Buttons from './Buttons'
+import Statistics from './Statistics'
+import { useState } from 'react'
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-    total: 0,
-    positiveFeedback: 0,
-  };
+const App = () => {
+  const [good, setGoodFeedback] = useState(0)
+  const [neutral, setNeutralFeedback] = useState(0)
+  const [bad, setBadFeedback] = useState(0)
+  const [total, setTotalFeedback] = useState(0)
+  const [positiveFeedback, setPositiveFeedback] = useState(0)
 
-  onButtonClick = feedbackType => {
-    this.setState(prevState => {
-      return {
-        [feedbackType]: prevState[feedbackType] + 1,
-        total: prevState.total + 1,
-      };
-    });
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    this.setState(prevState => {
-      return {
-        positiveFeedback: Math.round((prevState.good * 100) / prevState.total),
-      };
-    });
-  };
-
-  render() {
-    return (
-      <div className="feedbacks">
-        <h1 className="title">Please leave feedback</h1>
-        <Buttons
-          onButtonClick={this.onButtonClick}
-          countPositiveFeedbackPercentage={this.countPositiveFeedbackPercentage}
-        />
-        <h2 className="title">Statistics</h2>
-        {this.state.total > 0 ? (
-          <Statistics feedbacks={this.state} />
-        ) : (
-          <p className="statistic">No feedback given</p>
-        )}
-      </div>
-    );
+  const onButtonClick = (feedbackType) => {
+    if (feedbackType === 'good') {
+      setGoodFeedback(good + 1)
+      setPositiveFeedback(Math.round(((good + 1) * 100) / (total + 1)))
+    } else if (feedbackType === 'neutral') {
+      setNeutralFeedback(neutral + 1)
+      setPositiveFeedback(Math.round((good * 100) / (total + 1)))
+    } else if (feedbackType === 'bad') {
+      setBadFeedback(bad + 1)
+      setPositiveFeedback(Math.round((good * 100) / (total + 1)))
+    } else {
+      return
+    }
+    setTotalFeedback(total + 1)
   }
+
+  return (
+    <div className="feedbacks">
+      <h1 className="title">Please leave feedback</h1>
+      <Buttons onButtonClick={onButtonClick} />
+      <h2 className="title">Statistics</h2>
+      {total > 0 ? (
+        <Statistics
+          feedbacks={{ good, neutral, bad, total, positiveFeedback }}
+        />
+      ) : (
+        <p className="statistic">No feedback given</p>
+      )}
+    </div>
+  )
 }
+export default App

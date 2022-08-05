@@ -9,7 +9,7 @@ const Statistics = ({
       <li>Total: {total}</li>
       <li>PositiveFeedback: {positiveFeedback}%</li>
     </ul>
-  );
-};
+  )
+}
 
-export default Statistics;
+export default Statistics
